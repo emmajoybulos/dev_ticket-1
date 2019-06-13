@@ -3,3 +3,14 @@
 header ul.ml-auto.navbar-nav {
     padding-right: 30px
 }
+.dataTables_paginate .pagination, .dataTables_filter label {
+    float: right
+}
+.dataTables_wrapper table thead:last-child {
+    display: none;
+}
+.dataTables_filter input, .dataTables_length.bs-select select{
+    width: auto;
+    display: inline-block;
+    margin-left: 10px
+}
