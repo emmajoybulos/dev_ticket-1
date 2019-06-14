@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 const items = require("./routes/api/items");
+const tickets = require("./routes/api/tickets");
 
 const app = express();
 
@@ -14,12 +15,13 @@ const db = require("./config/keys").mongoURI;
 
 //connect to Mongo
 mongoose
-  .connect(db)
+  .connect(db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
 // Use Routes
 app.use("api/items", items);
+app.use("/tickets", tickets);
 
 const port = 5000;
 
