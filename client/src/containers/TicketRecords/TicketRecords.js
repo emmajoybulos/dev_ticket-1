@@ -4,9 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import AddTicket from '../../components/TicketRecords/AddTicket';
-import MainTable from '../../components/TicketRecords/MainTable';
-import SearchTicket from '../../components/TicketRecords/SearchTicket';
-import Pagination from '../../components/TicketRecords/Pagination/Pagination';
+import TicketRecordsTable from '../../components/TicketRecords/TicketRecordsTable';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -58,17 +56,7 @@ class TicketRecords extends Component {
                     </div>
                 </CardHeader>
                 <CardBody>
-                    <Row>
-                        <Col md={{ size: 3, offset: 9 }}>
-                            <SearchTicket/>
-                        </Col>
-                    </Row>
-                    <MainTable/>
-                    <Row>
-                        <Col md={{ size: 4, offset: 8 }}>
-                            <Pagination/>
-                        </Col>
-                    </Row>
+                    <TicketRecordsTable tickets={this.state.tickets} />
                 </CardBody>
             </Card>
         )

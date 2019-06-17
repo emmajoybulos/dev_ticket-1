@@ -1,10 +1,7 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 
-import Aux from '../../hoc/Aux';
-
 const mainTable = () => (
-    <Aux>
         <Table responsive bordered striped>
             <thead>
                 <tr>
@@ -163,7 +160,6 @@ const mainTable = () => (
                 </tr>
             </tbody>
         </Table>
-    </Aux>
 )
 
 export default mainTable;
