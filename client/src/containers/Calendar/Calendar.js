@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { Card, CardBody } from 'reactstrap';
 
-import '@fullcalendar/core/main.css';
-import '@fullcalendar/daygrid/main.css';
+import FullCalendar from '../../components/Calendar/FullCalendar';
 
 class Calendar extends Component {
+
     render() {
         return(
             <Card>
                 <CardBody>
-                <FullCalendar defaultView="dayGridMonth" plugins={[dayGridPlugin]} />
+                    <FullCalendar />
                 </CardBody>
             </Card>
             

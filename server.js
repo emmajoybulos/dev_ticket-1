@@ -6,6 +6,7 @@ const path = require('path');
 
 const items = require("./routes/api/items");
 const tickets = require("./routes/api/tickets");
+const calendar = require("./routes/api/calendar");
 
 const app = express();
 
@@ -27,6 +28,7 @@ mongoose
 // Use Routes
 app.use("api/items", items);
 app.use("/tickets", tickets);
+app.use("/calendar", calendar);
 
 const port = process.env.PORT || 5000;
 

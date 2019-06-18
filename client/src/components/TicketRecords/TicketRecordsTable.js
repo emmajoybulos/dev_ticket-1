@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Badge } from 'reactstrap';
 import { MDBDataTable } from 'mdbreact';
 
 const ticketRecordsTable = (props) => {
@@ -47,11 +48,7 @@ const ticketRecordsTable = (props) => {
     }
 
     return (
-        <MDBDataTable
-            striped
-            bordered
-            data={data}
-        />
+        <MDBDataTable striped bordered data={data} />
     )
 }
 

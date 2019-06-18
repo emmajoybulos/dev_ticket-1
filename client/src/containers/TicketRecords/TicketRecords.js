@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Row, Col } from 'reactstrap';
+import { Card, CardBody, CardHeader } from 'reactstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -52,7 +52,7 @@ class TicketRecords extends Component {
             <Card>
                 <CardHeader>
                     <div className="card-header-actions">
-                        <AddTicket change={this.handleChange} click={this.handleClick} />
+                        <AddTicket change={this.handleChange} value={this.state.ticket_id} click={this.handleClick} />
                     </div>
                 </CardHeader>
                 <CardBody>
