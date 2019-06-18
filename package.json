@@ -24,7 +24,6 @@
     "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "jira-client": "^6.8.0",
     "jira-connector": "^2.14.0",
     "mongoose": "^5.5.15"
   },

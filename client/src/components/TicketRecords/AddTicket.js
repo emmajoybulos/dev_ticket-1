@@ -9,7 +9,8 @@ const addTicket = (props) =>  (
             size="16" 
             type="text" 
             placeholder="Ticket ID"
-            onChange={props.change}
+            onChange={props.change.bind(this)}
+            value={props.value}
             />
         <InputGroupAddon addonType="append">
         <Button 
