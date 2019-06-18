@@ -1,7 +1,15 @@
 // Here you can add other styles
-
 header ul.ml-auto.navbar-nav {
     padding-right: 30px
+}
+.sidebar .nav-link.active .nav-icon {
+    color: #f86c6b
+}
+.sidebar .nav-link:hover {
+    background: #f86c6b
+}
+.sidebar .nav-link:hover .nav-icon {
+    color: #fff
 }
 .dataTables_paginate .pagination, .dataTables_filter label {
     float: right
