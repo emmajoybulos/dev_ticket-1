@@ -78,7 +78,9 @@ class Calendar extends Component {
         return(
             <Card>
                 <CardBody>
-                    <FullCalendar issues={issues} />
+                    {issues.length > 0 &&
+                        <FullCalendar issues={issues} />
+                    }
                 </CardBody>
             </Card>
             
