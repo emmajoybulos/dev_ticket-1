@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -28,98 +28,26 @@ const getObj = (obj, arr) => {
 
 const fullCalendar = (props) => {
 
-    const recievedIssues = [
-        {
-            key: 'CRE-00001',
-            username: 'remo.lalata',
-            displayName: 'Remo Lalata',
-            duedate: '2019-06-19',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00002',
-            username: 'julie.cabria',
-            displayName: 'Julie Cabria',
-            duedate: '2019-06-19',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00003',
-            username: 'remo.lalata',
-            displayName: 'Remo Lalata',
-            duedate: '2019-06-19',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00004',
-            username: 'remo.lalata',
-            displayName: 'Remo Lalata',
-            duedate: '2019-06-20',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00005',
-            username: 'remo.lalata',
-            displayName: 'Remo Lalata',
-            duedate: '2019-06-20',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00006',
-            username: 'remo.lalata',
-            displayName: 'Remo Lalata',
-            duedate: '2019-06-20',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00007',
-            username: 'julie.cabria',
-            displayName: 'Julie Cabria',
-            duedate: '2019-06-20',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00008',
-            username: 'julie.cabria',
-            displayName: 'Julie Cabria',
-            duedate: '2019-06-21',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00009',
-            username: 'julie.cabria',
-            displayName: 'Julie Cabria',
-            duedate: '2019-06-21',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00010',
-            username: 'julie.cabria',
-            displayName: 'Julie Cabria',
-            duedate: '2019-06-21',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00011',
-            username: 'remo.lalata',
-            displayName: 'Remo Lalata',
-            duedate: '2019-06-22',
-            imageurl: 'https://via.placeholder.com/150'
-        },
-        {
-            key: 'CRE-00012',
-            username: 'remo.lalata',
-            displayName: 'Remo Lalata',
-            duedate: '2019-06-23',
-            imageurl: 'https://via.placeholder.com/150'
-        }
-    ]
+    let recievedIssues = [];
+
+    if (props.issues) {
+        recievedIssues = props.issues.map((issue) => {
+            return (
+                {
+                    key: issue.key,
+                    username: issue.fields.assignee.key,
+                    displayName: issue.fields.assignee.displayName,
+                    duedate: issue.fields.duedate,
+                    imageurl: issue.fields.assignee.avatarUrls['24x24']
+                }
+            )
+        })
+    }
 
     let issues = [];
     recievedIssues.map((recievedIssue) => {
             if(checkObject({ id: recievedIssue.username, start: recievedIssue.duedate }, issues)) {
                 let i = getObj({ id: recievedIssue.username, start: recievedIssue.duedate }, issues);
-                // console.log(getObj({ id: recievedIssue.username, start: recievedIssue.duedate }, issues));
                 issues[i].count = issues[i].count + 1;
             } else {
                 issues.push(
@@ -139,7 +67,6 @@ const fullCalendar = (props) => {
         plugins: [dayGridPlugin],
         events: issues,
         eventRender: (event) => {
-            console.log(event)
             const imageurl = event.event._def.extendedProps.imageurl, title = event.event._def.title, el = event.el, count = event.event._def.extendedProps.count;
 
             const content = (
