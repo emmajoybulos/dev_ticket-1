@@ -3,6 +3,7 @@ import { Badge } from 'reactstrap';
 import { MDBDataTable } from 'mdbreact';
 
 const ticketRecordsTable = (props) => {
+    console.log(props)
 
     const assembledTickets = props.tickets.map((ticket) => {
         return (
