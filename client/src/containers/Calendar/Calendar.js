@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Card, CardBody } from 'reactstrap';
+import { Card, CardBody, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import axios from 'axios';
+import { BeatLoader } from 'react-spinners';
 
 import FullCalendar from '../../components/Calendar/FullCalendar';
 
 class Calendar extends Component {
 
     state = {
-        issues: []
+        issues: [],
+        userIssues: [],
+        modal: false
     }
 
     componentDidMount () {
@@ -20,6 +23,26 @@ class Calendar extends Component {
             })
     }
 
+    handleModal = (arg) => {
+        if (this.state.modal === false) {
+            axios.get('/calendar/get_ticket', {
+                params: {
+                    key: arg.event._def.publicId,
+                    duedate: arg.event._def.extendedProps.duedate
+                }
+            })
+                .then(response => {
+                    this.setState({ userIssues: response.data })
+                    console.log(this.state.userIssues)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+
+        this.setState({ modal: !this.state.modal, userIssues: [] })
+    }
+
     render() {
 
         let recievedIssues = [], issues = [];
@@ -27,7 +50,7 @@ class Calendar extends Component {
         const checkObject = (obj, arr) => {
             let i;
             for (i = 0; i < arr.length; i++) {
-                if(arr[i].id == obj.id && arr[i].start == obj.start) {
+                if(arr[i].id === obj.id && arr[i].start === obj.start) {
                     return true;
                 }
             }
@@ -37,7 +60,7 @@ class Calendar extends Component {
         const getObj = (obj, arr) => {
             let i;
             for (i = 0; i < arr.length; i++) {
-                if(arr[i].id == obj.id && arr[i].start == obj.start) {
+                if(arr[i].id === obj.id && arr[i].start === obj.start) {
                     return i;
                 }
             }
@@ -68,22 +91,44 @@ class Calendar extends Component {
                         id: recievedIssue.username,
                         title: recievedIssue.displayName,
                         start: recievedIssue.duedate,
+                        duedate: recievedIssue.duedate,
                         imageurl: recievedIssue.imageurl,
                         count: 1
                     }
                 )
             }
-        })
+        });
 
         return(
-            <Card>
-                <CardBody>
-                    {issues.length > 0 &&
-                        <FullCalendar issues={issues} />
-                    }
-                </CardBody>
-            </Card>
-            
+            <>
+                <Card>
+                    <CardBody>
+                        {issues.length > 0 ?
+                            <FullCalendar issues={issues} click={this.handleModal} />
+                            :
+                            <BeatLoader color="#c8ced3" size={15} sizeUnit="px" css={{ textAlign: 'center', maxHeight: '19px' }} />
+                        }
+                    </CardBody>
+                </Card>
+
+                <Modal isOpen={this.state.modal} toggle={this.handleModal}>
+                    <ModalHeader toggle={this.handleModal}>Ticket Summary</ModalHeader>
+                    <ModalBody>
+                        {this.state.userIssues.issues ?
+                            <ul>
+                                { this.state.userIssues.issues && this.state.userIssues.issues.map((issue) => (
+                                    <li key={issue.key}><a href={"https://jira.egalacoral.com/browse/" + issue.key} target="_blank" rel="noopener noreferrer">{issue.fields.summary}</a></li>
+                                ))}
+                            </ul>
+                            :
+                            <BeatLoader color="#c8ced3" size={15} sizeUnit="px" css={{ textAlign: 'center', maxHeight: '19px' }} />
+                        }
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" onClick={this.handleModal}>Close</Button>
+                    </ModalFooter>
+                </Modal>
+            </>
         )
     }
 }

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
@@ -10,7 +11,7 @@ const fullCalendar = (props) => {
 
     const options = {
         defaultView: 'dayGridMonth',
-        plugins: [dayGridPlugin],
+        plugins: [dayGridPlugin, interactionPlugin],
         events: props.issues,
         eventRender: (event) => {
             const imageurl = event.event._def.extendedProps.imageurl, title = event.event._def.title, el = event.el, count = event.event._def.extendedProps.count;
@@ -25,17 +26,13 @@ const fullCalendar = (props) => {
 
             ReactDOM.render(content, el);
             return el;
-        },
-        eventClick: (event) => {
-            console.log(event)
         }
     }
-
-    console.log(props.issues)
 
     return (
         <FullCalendar
             {...options}
+            eventClick={props.click}
         />
     )
 }

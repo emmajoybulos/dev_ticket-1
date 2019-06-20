@@ -6,7 +6,8 @@ let jira = new JiraClient({
     host: 'jira.egalacoral.com',
     basic_auth: {
         base64: 'cmVtby5sYWxhdGE6UGFzc3dvcmQxMjMkJA=='
-    }
+    },
+    strictSSL: false
 })
 
 router.get('/', (req, res) => {
@@ -22,5 +23,19 @@ router.get('/', (req, res) => {
             res.send(err)
         })
 });
+
+router.get('/get_ticket', (req, res) => {
+    let assignee = req.query.key, duedate = req.query.duedate;
+    jira.search.search({
+        jql: `project = CRE AND duedate = ${duedate} AND assignee in (${assignee})`,
+        fields: ["key", "summary"]
+    })
+        .then(issues => {
+            res.json(issues);
+        })
+        .catch(err => {
+            res.send(err);
+        })
+})
 
 module.exports = router;
