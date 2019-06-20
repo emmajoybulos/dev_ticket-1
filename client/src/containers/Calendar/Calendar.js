@@ -15,12 +15,12 @@ class Calendar extends Component {
 
     componentDidMount () {
         axios.get('/calendar')
-            .then(response => {
-                this.setState({ issues: response.data })
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        .then(response => {
+            this.setState({ issues: response.data })
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
     handleModal = (arg) => {
@@ -31,13 +31,13 @@ class Calendar extends Component {
                     duedate: arg.event._def.extendedProps.duedate
                 }
             })
-                .then(response => {
-                    this.setState({ userIssues: response.data })
-                    console.log(this.state.userIssues)
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            .then(response => {
+                this.setState({ userIssues: response.data })
+                console.log(this.state.userIssues)
+            })
+            .catch(err => {
+                console.log(err);
+            })
         }
 
         this.setState({ modal: !this.state.modal, userIssues: [] })

@@ -47,7 +47,12 @@ const ticketRecordsTable = (props) => {
     }
 
     return (
-        <MDBDataTable striped bordered data={data} />
+        <MDBDataTable
+            striped
+            bordered
+            data={data}
+            order={['duedate', 'desc']}
+        />
     )
 }
 

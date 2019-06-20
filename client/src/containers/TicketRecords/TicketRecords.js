@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardBody, CardHeader } from 'reactstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { BeatLoader } from 'react-spinners';
 
 import AddTicket from '../../components/TicketRecords/AddTicket';
 import TicketRecordsTable from '../../components/TicketRecords/TicketRecordsTable';
@@ -23,7 +24,8 @@ class TicketRecords extends Component {
         })
         .catch(err => {
             console.log(err)
-        })
+        });
+        
     }
 
     handleChange = (event) => {
@@ -56,7 +58,12 @@ class TicketRecords extends Component {
                     </div>
                 </CardHeader>
                 <CardBody>
-                    <TicketRecordsTable tickets={this.state.tickets} />
+                    {this.state.tickets.length > 0 ?
+                        <TicketRecordsTable tickets={this.state.tickets} />
+                        :
+                        <BeatLoader color="#c8ced3" size={15} sizeUnit="px" css={{ textAlign: 'center', maxHeight: '19px' }} />
+                    }
+                    
                 </CardBody>
             </Card>
         )
