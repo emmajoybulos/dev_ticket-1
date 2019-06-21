@@ -12,7 +12,7 @@ let jira = new JiraClient({
 
 router.get('/', (req, res) => {
     jira.search.search({
-        jql: "project = CRE AND status['id'] in (1, 3, 4) AND assignee in (don.melendez, lester.duldulao, lunar.cuenca, remo.lalata, jessica.gunay, kevin.chavez, francheska.rivano, emma.bulos, john.bero, julie.cabria, arjimson.santiano, lloyd.montero, daryl.laraya, kristine.molina)",
+        jql: "project = CRE AND status['id'] in (1, 3, 4, 10627, 15923) AND assignee in (don.melendez, lester.duldulao, lunar.cuenca, remo.lalata, jessica.gunay, kevin.chavez, francheska.rivano, emma.bulos, john.bero, julie.cabria, arjimson.santiano, lloyd.montero, daryl.laraya, kristine.molina)",
         maxResults: 5000,
         fields: ["key", "duedate", "assignee"]
     })
@@ -27,8 +27,8 @@ router.get('/', (req, res) => {
 router.get('/get_ticket', (req, res) => {
     let assignee = req.query.key, duedate = req.query.duedate;
     jira.search.search({
-        jql: `project = CRE AND duedate = ${duedate} AND assignee in (${assignee})`,
-        fields: ["key", "summary"]
+        jql: `project = CRE AND status['id'] in (1, 3, 4, 10627, 15923) AND duedate = ${duedate} AND assignee in (${assignee})`,
+        fields: ["key", "summary", "status"]
     })
         .then(issues => {
             res.json(issues);

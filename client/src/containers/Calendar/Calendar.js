@@ -1,10 +1,58 @@
 import React, { Component } from 'react';
-import { Card, CardBody, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Card, CardBody, Badge, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import axios from 'axios';
 import { BeatLoader } from 'react-spinners';
 
 import FullCalendar from '../../components/Calendar/FullCalendar';
 
+let recievedIssues = [], issues = [];
+
+const checkObject = (obj, arr) => {
+    let i;
+    for (i = 0; i < arr.length; i++) {
+        if(arr[i].id === obj.id && arr[i].start === obj.start) {
+            return true;
+        }
+    }
+    return false;
+}
+
+const getObj = (obj, arr) => {
+    let i;
+    for (i = 0; i < arr.length; i++) {
+        if(arr[i].id === obj.id && arr[i].start === obj.start) {
+            return i;
+        }
+    }
+    return false;
+}
+
+const ticketBadgeRender = (arg) => {
+    // return arg
+    let status = null;
+    switch (arg) {
+        case ('1'):
+            status = <Badge color="primary">New</Badge>;
+            break;
+        case ('3'):
+            status = <Badge color="warning">In Progress</Badge>;
+            break;
+        case ('4'):
+            status = <Badge color="primary">In Progress</Badge>;
+            break;
+        case ('10627'):
+            status = <Badge color="warning">Awaiting Publish</Badge>;
+            break;
+        case ('15923'):
+            status = <Badge color="warning">Prepare for Publish</Badge>;
+            break;
+        default:
+            status = null
+    }
+
+    return status;
+}
+    
 class Calendar extends Component {
 
     state = {
@@ -33,7 +81,6 @@ class Calendar extends Component {
             })
             .then(response => {
                 this.setState({ userIssues: response.data })
-                console.log(this.state.userIssues)
             })
             .catch(err => {
                 console.log(err);
@@ -44,28 +91,6 @@ class Calendar extends Component {
     }
 
     render() {
-
-        let recievedIssues = [], issues = [];
-
-        const checkObject = (obj, arr) => {
-            let i;
-            for (i = 0; i < arr.length; i++) {
-                if(arr[i].id === obj.id && arr[i].start === obj.start) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        const getObj = (obj, arr) => {
-            let i;
-            for (i = 0; i < arr.length; i++) {
-                if(arr[i].id === obj.id && arr[i].start === obj.start) {
-                    return i;
-                }
-            }
-            return false;
-        }
 
         if(this.state.issues.issues) {
             recievedIssues = this.state.issues.issues.map((issue) => {
@@ -117,7 +142,9 @@ class Calendar extends Component {
                         {this.state.userIssues.issues ?
                             <ul>
                                 { this.state.userIssues.issues && this.state.userIssues.issues.map((issue) => (
-                                    <li key={issue.key}><a href={"https://jira.egalacoral.com/browse/" + issue.key} target="_blank" rel="noopener noreferrer">{issue.fields.summary}</a></li>
+                                    <li key={issue.key}>
+                                        {ticketBadgeRender(issue.fields.status.id)} <a href={"https://jira.egalacoral.com/browse/" + issue.key} target="_blank" rel="noopener noreferrer"> {issue.fields.summary} </a>
+                                    </li>
                                 ))}
                             </ul>
                             :
