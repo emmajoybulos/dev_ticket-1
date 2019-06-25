@@ -1,6 +1,13 @@
 a:hover {
     text-decoration: none
 }
+.main .container-fluid {
+    padding: 30px;
+}
+.card-header span {
+    display: inline-block;
+    vertical-align: sub
+}
 .dataTables_paginate .pagination, .dataTables_filter label {
     float: right
 }

@@ -26,13 +26,14 @@ const fullCalendar = (props) => {
 
             ReactDOM.render(content, el);
             return el;
-        }
+        },
+        eventClick: props.click,
+        ref: props.calendarRef
     }
 
     return (
         <FullCalendar
             {...options}
-            eventClick={props.click}
         />
     )
 }

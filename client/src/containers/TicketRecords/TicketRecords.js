@@ -18,14 +18,19 @@ class TicketRecords extends Component {
     }
 
     componentDidMount () {
-        axios.get('/tickets')
-        .then(response => {
-            this.setState({ tickets: response.data })
-        })
-        .catch(err => {
-            console.log(err)
-        });
-        
+        this.interval = setInterval(() => {
+            axios.get('/tickets')
+            .then(response => {
+                this.setState({ tickets: response.data })
+            })
+            .catch(err => {
+                console.log(err)
+            });
+        }, 5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     handleChange = (event) => {
@@ -53,6 +58,7 @@ class TicketRecords extends Component {
         return (
             <Card>
                 <CardHeader>
+                    <span>Ticket Records</span>
                     <div className="card-header-actions">
                         <AddTicket change={this.handleChange} value={this.state.ticket_id} click={this.handleClick} />
                     </div>

@@ -16,12 +16,12 @@ router.get('/', (req, res) => {
         maxResults: 5000,
         fields: ["key", "duedate", "assignee"]
     })
-        .then(issues => {
-            res.json(issues)
-        })
-        .catch(err => {
-            res.send(err)
-        })
+    .then(issues => {
+        res.json(issues)
+    })
+    .catch(err => {
+        res.send(err)
+    })
 });
 
 router.get('/get_ticket', (req, res) => {
@@ -30,12 +30,12 @@ router.get('/get_ticket', (req, res) => {
         jql: `project = CRE AND status['id'] in (1, 3, 4, 10627, 15923) AND duedate = ${duedate} AND assignee in (${assignee})`,
         fields: ["key", "summary", "status"]
     })
-        .then(issues => {
-            res.json(issues);
-        })
-        .catch(err => {
-            res.send(err);
-        })
+    .then(issues => {
+        res.json(issues);
+    })
+    .catch(err => {
+        res.send(err);
+    })
 })
 
 module.exports = router;

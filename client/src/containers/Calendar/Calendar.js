@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Card, CardBody, Badge, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Card, CardHeader, CardBody, Badge, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import axios from 'axios';
 import { BeatLoader } from 'react-spinners';
 
 import FullCalendar from '../../components/Calendar/FullCalendar';
-
-let recievedIssues = [], issues = [];
 
 const checkObject = (obj, arr) => {
     let i;
@@ -28,7 +26,6 @@ const getObj = (obj, arr) => {
 }
 
 const ticketBadgeRender = (arg) => {
-    // return arg
     let status = null;
     switch (arg) {
         case ('1'):
@@ -38,7 +35,7 @@ const ticketBadgeRender = (arg) => {
             status = <Badge color="warning">In Progress</Badge>;
             break;
         case ('4'):
-            status = <Badge color="primary">In Progress</Badge>;
+            status = <Badge color="primary">Reopened</Badge>;
             break;
         case ('10627'):
             status = <Badge color="warning">Awaiting Publish</Badge>;
@@ -55,20 +52,46 @@ const ticketBadgeRender = (arg) => {
     
 class Calendar extends Component {
 
+    calendarComponentRef = React.createRef();
+
     state = {
         issues: [],
         userIssues: [],
-        modal: false
+        modal: false,
     }
 
     componentDidMount () {
         axios.get('/calendar')
         .then(response => {
             this.setState({ issues: response.data })
+
+            let events = [];
+
+            response.data.issues.map((hah) => {
+                if(checkObject({ id: hah.fields.assignee.key, start: hah.fields.duedate }, events)) {
+                    let i = getObj({ id: hah.fields.assignee.key, start: hah.fields.duedate }, events);
+                    return events[i].count = events[i].count + 1;
+                } else {
+                    return (
+                        events.push(
+                            {
+                                id: hah.fields.assignee.key,
+                                title: hah.fields.assignee.displayName,
+                                start: hah.fields.duedate,
+                                duedate: hah.fields.duedate,
+                                imageurl: hah.fields.assignee.avatarUrls['24x24'],
+                                count: 1
+                            }
+                        )
+                    )
+                }
+            })
+
+            this.setState({ issues: [...events] })
         })
         .catch(err => {
             console.log(err)
-        })
+        });
     }
 
     handleModal = (arg) => {
@@ -90,46 +113,36 @@ class Calendar extends Component {
         this.setState({ modal: !this.state.modal, userIssues: [] })
     }
 
-    render() {
+    handleRefreshCalendar = () => {
+        let calendarApi = this.calendarComponentRef.current.getApi();
+        calendarApi.removeAllEventSources();
+        calendarApi.addEventSource([
+            {
+                title: 'Lloyd Montero',
+                start: '2019-06-25',
+                imageurl: 'https://jira.egalacoral.com/secure/useravatar?size=small&ownerId=lunar.cuenca&avatarId=20806',
+                duedate: '2019-06-25',
+                id: 'lloyd.montero',
+                count: 1
+            },
+        ]);
+        calendarApi.refetchEvents();
+    }
 
-        if(this.state.issues.issues) {
-            recievedIssues = this.state.issues.issues.map((issue) => {
-                return (
-                    {
-                        key: issue.key,
-                        username: issue.fields.assignee.key,
-                        displayName: issue.fields.assignee.displayName,
-                        duedate: issue.fields.duedate,
-                        imageurl: issue.fields.assignee.avatarUrls['24x24']
-                    }
-                )
-            })
-        }
-        
-        recievedIssues.map((recievedIssue) => {
-            if(checkObject({ id: recievedIssue.username, start: recievedIssue.duedate }, issues)) {
-                let i = getObj({ id: recievedIssue.username, start: recievedIssue.duedate }, issues);
-                issues[i].count = issues[i].count + 1;
-            } else {
-                issues.push(
-                    {
-                        id: recievedIssue.username,
-                        title: recievedIssue.displayName,
-                        start: recievedIssue.duedate,
-                        duedate: recievedIssue.duedate,
-                        imageurl: recievedIssue.imageurl,
-                        count: 1
-                    }
-                )
-            }
-        });
+    render() {
 
         return(
             <>
                 <Card>
+                    <CardHeader>
+                        <span>Calendar</span>
+                        <div className="card-header-actions">
+                            <Button color="primary" onClick={this.handleRefreshCalendar} size="sm" >Click me</Button>
+                        </div>
+                    </CardHeader>
                     <CardBody>
-                        {issues.length > 0 ?
-                            <FullCalendar issues={issues} click={this.handleModal} />
+                        {this.state.issues.length > 0 ?
+                            <FullCalendar issues={this.state.issues} click={this.handleModal} calendarRef={this.calendarComponentRef} />
                             :
                             <BeatLoader color="#c8ced3" size={15} sizeUnit="px" css={{ textAlign: 'center', maxHeight: '19px' }} />
                         }

@@ -20,27 +20,32 @@ const ticketRecordsTable = (props) => {
         columns: [
             {
                 label: 'Ticket ID',
-                field: 'ticet_id'
+                field: 'ticet_id',
+                sort: false
             },
             {
                 label: 'Summary',
-                field: 'ticket_summary'
+                field: 'ticket_summary',
+                sort: false
             },
             {
                 label: 'Duedate',
-                field: 'duedate'
+                field: 'duedate',
             },
             {
                 label: 'Original Duedate',
-                field: 'orignal_duedate'
+                field: 'orignal_duedate',
+                sort: false
             },
             {
                 label: 'Logged Time',
-                field: 'logged_time'
+                field: 'logged_time',
+                sort: false
             },
             {
                 label: 'Status',
-                field: 'ticket_status'
+                field: 'ticket_status',
+                sort: false
             }
         ],
         rows: assembledTickets
