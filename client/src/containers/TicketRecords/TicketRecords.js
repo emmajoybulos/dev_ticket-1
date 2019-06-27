@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader } from 'reactstrap';
+import { Card, CardBody, CardHeader, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { BeatLoader } from 'react-spinners';
 
 import AddTicket from '../../components/TicketRecords/AddTicket';
-import TicketRecordsTable from '../../components/TicketRecords/TicketRecordsTable';
+import MainTable from '../../components/TicketRecords/MainTable';
+import Pagination from '../../components/TicketRecords/Pagination';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,62 +14,91 @@ toast.configure({ autoClose: 3000 });
 class TicketRecords extends Component {
     state = {
         ticket_id: '',
-        tickets: []
+        tickets: [],
+        currentPage: 1,
+        ticketsPerPage: 10
     }
 
     componentDidMount () {
-        this.interval = setInterval(() => {
-            axios.get('/tickets')
-            .then(response => {
-                this.setState({ tickets: response.data })
-            })
-            .catch(err => {
-                console.log(err)
-            });
-        }, 5000);
-    }
+        axios.get('/tickets')
+        .then(response => {
+            this.setState({ tickets: response.data })
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
+            console.log(this.state.tickets)
+        })
+        .catch(err => {
+            console.log(err)
+        });
     }
 
     handleChange = (event) => {
         this.setState({ ticket_id: event.target.value });
     }
 
-    handleClick = (event) => {
+    handleSubmit = (event) => {
+        event.preventDefault();
         axios.post('/tickets', {
             ticket_id: this.state.ticket_id
         })
-        .then(response => {
-            console.log(response);
-            
+        .then(() => {
             this.setState({ ticket_id: '' });
-
             toast.success("Ticket saved!");
 
+            axios.get('/tickets').then(response => { this.setState({ tickets: response.data }) })
         })
         .catch(err => {
             console.log(err)
         })
     }
+
+    handlePaginationClick = (event) => {
+        this.setState({ currentPage: Number(event.target.id) })
+    }
+
+    handlePaginationNext = () => {
+        const nextPage = this.state.currentPage + 1;
+        this.setState({ currentPage: Number(nextPage) })
+    }
+
+    handlePaginationPre = () => {
+        const prevPage = this.state.currentPage - 1;
+        this.setState({ currentPage: Number(prevPage) })
+    }
     
     render() {
+
+        const { tickets, currentPage, ticketsPerPage } = this.state;
+
+        const indexOfLastTicket = currentPage * ticketsPerPage;
+        const indexOfFirstTicket = indexOfLastTicket - ticketsPerPage;
+        const currentTickets = tickets.slice(indexOfFirstTicket, indexOfLastTicket);
+
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(tickets.length / ticketsPerPage); i++) {
+            pageNumbers.push(i);
+        }
+
         return (
             <Card>
                 <CardHeader>
                     <span>Ticket Records</span>
                     <div className="card-header-actions">
-                        <AddTicket change={this.handleChange} value={this.state.ticket_id} click={this.handleClick} />
+                        <AddTicket change={this.handleChange} value={this.state.ticket_id} submit={this.handleSubmit} />
                     </div>
                 </CardHeader>
                 <CardBody>
-                    {this.state.tickets.length > 0 ?
-                        <TicketRecordsTable tickets={this.state.tickets} />
-                        :
-                        <BeatLoader color="#c8ced3" size={15} sizeUnit="px" css={{ textAlign: 'center', maxHeight: '19px' }} />
-                    }
-                    
+                    <MainTable currentTickets={currentTickets} />
+                    <Row>
+                        <Col md={{ size: 6, offset: 6 }}>
+                            <Pagination
+                                clickPage={this.handlePaginationClick}
+                                clickNext={this.handlePaginationNext}
+                                clickPrev={this.handlePaginationPre}
+                                pageNumbers={pageNumbers}
+                                currentPage={this.state.currentPage}
+                            />
+                        </Col>
+                    </Row>
                 </CardBody>
             </Card>
         )

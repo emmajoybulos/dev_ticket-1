@@ -12,6 +12,7 @@ const fullCalendar = (props) => {
     const options = {
         defaultView: 'dayGridMonth',
         plugins: [dayGridPlugin, interactionPlugin],
+        header: {left: 'title', right: ''},
         events: props.issues,
         eventRender: (event) => {
             const imageurl = event.event._def.extendedProps.imageurl, title = event.event._def.title, el = event.el, count = event.event._def.extendedProps.count;

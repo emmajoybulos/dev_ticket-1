@@ -1,7 +1,42 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Table, Badge } from 'reactstrap';
 
-const mainTable = () => (
+const statusBadge = (arg) => {
+    let status = null;
+    switch (arg) {
+        case ('New'):
+        case ('Reopened'):
+        case ('On Hold'):
+            status = <Badge color="primary" >{arg}</Badge>;
+            break;
+        case ('Resolved'):
+            status = <Badge color="success">Resolvsed</Badge>;
+            break;
+        default:
+            status = <Badge color="warning">{arg}</Badge>;
+    }
+
+    return status;
+}
+
+const mainTable = (props) => {
+
+    let renderTickets = <tr align="center"><td colSpan="6">Loading tickets...</td></tr>
+
+    if(props.currentTickets.length > 0) {
+        renderTickets = props.currentTickets.map((ticket) => 
+            <tr key={ticket._id}>
+                <td><a href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id} target="_blank">{ticket.ticket_id}</a></td>
+                <td><a href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id} target="_blank">{ticket.ticket_summary}</a></td>
+                <td>{ticket.duedate}</td>
+                <td>{ticket.original_duedate}</td>
+                <td>{ticket.logged_time}</td>
+                <td>{statusBadge(ticket.ticket_status)}</td>
+            </tr>
+        )
+    }
+
+    return (
         <Table responsive bordered striped>
             <thead>
                 <tr>
@@ -14,152 +49,10 @@ const mainTable = () => (
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
-                <tr>
-                    <td>Ticket ID</td>
-                    <td>Summary</td>
-                    <td>Duedate</td>
-                    <td>Original Duedate</td>
-                    <td>Logged Time</td>
-                    <td>Status</td>
-                </tr>
+                {renderTickets}
             </tbody>
         </Table>
-)
+    )
+}
 
 export default mainTable;

@@ -1,6 +1,12 @@
 a:hover {
     text-decoration: none
 }
+a:focus, button:focus, .page-link:focus, .btn-primary:focus, .btn-primary.focus {
+    box-shadow: none
+}
+.disabled {
+    cursor: not-allowed;
+}
 .main .container-fluid {
     padding: 30px;
 }
@@ -43,4 +49,7 @@ a:hover {
 }
 .modal ul {
     margin-bottom: 0
+}
+nav ul.pagination {
+    float: right
 }

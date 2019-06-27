@@ -25,6 +25,32 @@ const getObj = (obj, arr) => {
     return false;
 }
 
+const assembleIssues = (arr) => {
+    let events = [];
+
+    arr.map((issue) => {
+        if(checkObject({ id: issue.fields.assignee.key, start: issue.fields.duedate }, events)) {
+            let i = getObj({ id: issue.fields.assignee.key, start: issue.fields.duedate }, events);
+            return events[i].count = events[i].count + 1;
+        } else {
+            return (
+                events.push(
+                    {
+                        id: issue.fields.assignee.key,
+                        title: issue.fields.assignee.displayName,
+                        start: issue.fields.duedate,
+                        duedate: issue.fields.duedate,
+                        imageurl: issue.fields.assignee.avatarUrls['24x24'],
+                        count: 1
+                    }
+                )
+            )
+        }
+    });
+
+    return events;
+}
+
 const ticketBadgeRender = (arg) => {
     let status = null;
     switch (arg) {
@@ -63,31 +89,7 @@ class Calendar extends Component {
     componentDidMount () {
         axios.get('/calendar')
         .then(response => {
-            this.setState({ issues: response.data })
-
-            let events = [];
-
-            response.data.issues.map((hah) => {
-                if(checkObject({ id: hah.fields.assignee.key, start: hah.fields.duedate }, events)) {
-                    let i = getObj({ id: hah.fields.assignee.key, start: hah.fields.duedate }, events);
-                    return events[i].count = events[i].count + 1;
-                } else {
-                    return (
-                        events.push(
-                            {
-                                id: hah.fields.assignee.key,
-                                title: hah.fields.assignee.displayName,
-                                start: hah.fields.duedate,
-                                duedate: hah.fields.duedate,
-                                imageurl: hah.fields.assignee.avatarUrls['24x24'],
-                                count: 1
-                            }
-                        )
-                    )
-                }
-            })
-
-            this.setState({ issues: [...events] })
+            this.setState({ issues: [...assembleIssues(response.data.issues)] })
         })
         .catch(err => {
             console.log(err)
@@ -114,19 +116,27 @@ class Calendar extends Component {
     }
 
     handleRefreshCalendar = () => {
-        let calendarApi = this.calendarComponentRef.current.getApi();
-        calendarApi.removeAllEventSources();
-        calendarApi.addEventSource([
-            {
-                title: 'Lloyd Montero',
-                start: '2019-06-25',
-                imageurl: 'https://jira.egalacoral.com/secure/useravatar?size=small&ownerId=lunar.cuenca&avatarId=20806',
-                duedate: '2019-06-25',
-                id: 'lloyd.montero',
-                count: 1
-            },
-        ]);
-        calendarApi.refetchEvents();
+        // let calendarApi = this.calendarComponentRef.current.getApi();
+        // calendarApi.removeAllEventSources();
+        // calendarApi.addEventSource([
+        //     {
+        //         title: 'Lloyd Montero',
+        //         start: '2019-06-25',
+        //         imageurl: 'https://jira.egalacoral.com/secure/useravatar?size=small&ownerId=lunar.cuenca&avatarId=20806',
+        //         duedate: '2019-06-25',
+        //         id: 'lloyd.montero',
+        //         count: 1
+        //     },
+        // ]);
+        // calendarApi.refetchEvents();
+
+        axios.get('/calendar')
+        .then(response => {
+            this.setState({ issues: [...assembleIssues(response.data.issues)] })
+        })
+        .catch(err => {
+            console.log(err)
+        });
     }
 
     render() {
@@ -137,15 +147,13 @@ class Calendar extends Component {
                     <CardHeader>
                         <span>Calendar</span>
                         <div className="card-header-actions">
-                            <Button color="primary" onClick={this.handleRefreshCalendar} size="sm" >Click me</Button>
+                            <Button color="primary" onClick={this.handleRefreshCalendar} size="sm" >
+                                <i className="fa fa-refresh"> </i>
+                            </Button>
                         </div>
                     </CardHeader>
                     <CardBody>
-                        {this.state.issues.length > 0 ?
-                            <FullCalendar issues={this.state.issues} click={this.handleModal} calendarRef={this.calendarComponentRef} />
-                            :
-                            <BeatLoader color="#c8ced3" size={15} sizeUnit="px" css={{ textAlign: 'center', maxHeight: '19px' }} />
-                        }
+                        <FullCalendar issues={this.state.issues} click={this.handleModal} calendarRef={this.calendarComponentRef} />
                     </CardBody>
                 </Card>
 
