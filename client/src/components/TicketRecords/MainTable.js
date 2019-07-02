@@ -10,7 +10,8 @@ const statusBadge = (arg) => {
             status = <Badge color="primary" >{arg}</Badge>;
             break;
         case ('Resolved'):
-            status = <Badge color="success">Resolvsed</Badge>;
+        case ('Subtask Completed'):
+            status = <Badge color="success">{arg}</Badge>;
             break;
         default:
             status = <Badge color="warning">{arg}</Badge>;
@@ -20,20 +21,27 @@ const statusBadge = (arg) => {
 }
 
 const mainTable = (props) => {
+    let { currentTickets } = props;
 
     let renderTickets = <tr align="center"><td colSpan="6">Loading tickets...</td></tr>
 
-    if(props.currentTickets.length > 0) {
-        renderTickets = props.currentTickets.map((ticket) => 
-            <tr key={ticket._id}>
-                <td><a href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id} target="_blank">{ticket.ticket_id}</a></td>
-                <td><a href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id} target="_blank">{ticket.ticket_summary}</a></td>
-                <td>{ticket.duedate}</td>
-                <td>{ticket.original_duedate}</td>
-                <td>{ticket.logged_time}</td>
-                <td>{statusBadge(ticket.ticket_status)}</td>
-            </tr>
-        )
+    if(currentTickets) {
+        
+        if(currentTickets.length > 0) {
+            renderTickets = currentTickets.map((ticket) => 
+                <tr key={ticket._id}>
+                    <td><a href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id} target="_blank">{ticket.ticket_id}</a></td>
+                    <td><a href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id} target="_blank">{ticket.ticket_summary}</a></td>
+                    <td>{ticket.duedate}</td>
+                    <td>{ticket.original_duedate}</td>
+                    <td>{ticket.logged_time}</td>
+                    <td>{statusBadge(ticket.ticket_status)}</td>
+                </tr>
+            )
+        } else {
+            renderTickets = <tr align="center"><td colSpan="6">No data to display.</td></tr>
+        }
+        
     }
 
     return (

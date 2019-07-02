@@ -15,16 +15,15 @@ class TicketRecords extends Component {
     state = {
         ticket_id: '',
         tickets: [],
-        currentPage: 1,
-        ticketsPerPage: 10
+        currentTickets: [],
+        currentPage: null,
+        totalPages: null
     }
 
     componentDidMount () {
         axios.get('/tickets')
         .then(response => {
-            this.setState({ tickets: response.data })
-
-            console.log(this.state.tickets)
+            this.setState({ tickets: response.data });
         })
         .catch(err => {
             console.log(err)
@@ -51,37 +50,32 @@ class TicketRecords extends Component {
         })
     }
 
-    handlePaginationClick = (event) => {
-        this.setState({ currentPage: Number(event.target.id) })
-    }
+    handlePageChanged = data => {
+        const { tickets } = this.state;
+        const { currentPage, totalPages, pageLimit } = data;
 
-    handlePaginationNext = () => {
-        const nextPage = this.state.currentPage + 1;
-        this.setState({ currentPage: Number(nextPage) })
-    }
+        const offset = (currentPage - 1) * pageLimit;
+        const currentTickets = tickets.slice(offset, offset + pageLimit);
 
-    handlePaginationPre = () => {
-        const prevPage = this.state.currentPage - 1;
-        this.setState({ currentPage: Number(prevPage) })
+        this.setState({ currentPage, currentTickets, totalPages });
     }
     
     render() {
 
-        const { tickets, currentPage, ticketsPerPage } = this.state;
+        const {
+            tickets,
+            currentTickets,
+            currentPage,
+            totalPages
+        } = this.state;
 
-        const indexOfLastTicket = currentPage * ticketsPerPage;
-        const indexOfFirstTicket = indexOfLastTicket - ticketsPerPage;
-        const currentTickets = tickets.slice(indexOfFirstTicket, indexOfLastTicket);
-
-        const pageNumbers = [];
-        for (let i = 1; i <= Math.ceil(tickets.length / ticketsPerPage); i++) {
-            pageNumbers.push(i);
-        }
-
+        const totalTickets = tickets.length;
+        
         return (
+
             <Card>
                 <CardHeader>
-                    <span>Ticket Records</span>
+                    <span>Ticket Records({totalTickets})</span>
                     <div className="card-header-actions">
                         <AddTicket change={this.handleChange} value={this.state.ticket_id} submit={this.handleSubmit} />
                     </div>
@@ -90,13 +84,15 @@ class TicketRecords extends Component {
                     <MainTable currentTickets={currentTickets} />
                     <Row>
                         <Col md={{ size: 6, offset: 6 }}>
-                            <Pagination
-                                clickPage={this.handlePaginationClick}
-                                clickNext={this.handlePaginationNext}
-                                clickPrev={this.handlePaginationPre}
-                                pageNumbers={pageNumbers}
-                                currentPage={this.state.currentPage}
-                            />
+                            {totalTickets > 0 &&
+                                <Pagination
+                                    totalTickets={totalTickets}
+                                    pageLimit={10}
+                                    pageNeighbours={1}
+                                    handlePageChanged={this.handlePageChanged}
+                                />
+                            }
+                            
                         </Col>
                     </Row>
                 </CardBody>

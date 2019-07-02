@@ -21,7 +21,7 @@
   "homepage": "https://github.com/remolalata/dev_ticket#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "concurrently": "^4.1.0",
+    "concurrently": "^4.1.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jira-connector": "^2.14.0",

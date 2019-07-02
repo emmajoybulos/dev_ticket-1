@@ -52,13 +52,6 @@ router.post('/', (req, res) => {
 });
 
 router.get('/show', (req, res) => {
-    // jira.issue.getIssue({
-    //     issueKey: 'CRE-191848'
-    // })
-    // .then(issue => {
-    //     res.send(issue)
-    // })
-
     jira.search.search({
         jql: "(cf[21600]['key'] in (remo.lalata) OR cf[19613]['key'] in (remo.lalata) OR worklogAuthor in (remo.lalata))",
         maxResults: 5000,
