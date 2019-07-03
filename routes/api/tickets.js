@@ -63,7 +63,7 @@ router.get('/unresolved_tickets', (req, res) => {
 
 router.get('/show', (req, res) => {
     jira.search.search({
-        jql: "(cf[21600]['key'] in (remo.lalata) OR cf[19613]['key'] in (remo.lalata) OR worklogAuthor in (remo.lalata))",
+        jql: "(cf[21600]['key'] in (lester.duldulao) OR cf[19613]['key'] in (lester.duldulao) OR worklogAuthor in (lester.duldulao))",
         maxResults: 5000,
         fields: ["key", "duedate", "assignee", "customfield_18301", "timespent", "status", "summary"]
     })
