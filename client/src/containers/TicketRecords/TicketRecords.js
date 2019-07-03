@@ -83,7 +83,10 @@ class TicketRecords extends Component {
                 <CardBody>
                     <MainTable currentTickets={currentTickets} />
                     <Row>
-                        <Col md={{ size: 6, offset: 6 }}>
+                        <Col md="6">
+                            {totalTickets} Tickets | Page {currentPage} / {totalPages}
+                        </Col>
+                        <Col md="6">
                             {totalTickets > 0 &&
                                 <Pagination
                                     totalTickets={totalTickets}
