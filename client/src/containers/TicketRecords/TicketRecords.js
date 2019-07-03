@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import AddTicket from '../../components/TicketRecords/AddTicket';
 import MainTable from '../../components/TicketRecords/MainTable';
 import Pagination from '../../components/TicketRecords/Pagination';
+import InfoLabel from '../../components/TicketRecords/InfoLabel';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -28,6 +29,10 @@ class TicketRecords extends Component {
         .catch(err => {
             console.log(err)
         });
+
+        setInterval(() => {
+            console.log('haha')
+        }, 5000);
     }
 
     handleChange = (event) => {
@@ -75,29 +80,33 @@ class TicketRecords extends Component {
 
             <Card>
                 <CardHeader>
-                    <span>Ticket Records({totalTickets})</span>
+                    <span>Ticket Records</span>
                     <div className="card-header-actions">
                         <AddTicket change={this.handleChange} value={this.state.ticket_id} submit={this.handleSubmit} />
                     </div>
                 </CardHeader>
                 <CardBody>
                     <MainTable currentTickets={currentTickets} />
-                    <Row>
-                        <Col md="6">
-                            {totalTickets} Tickets | Page {currentPage} / {totalPages}
-                        </Col>
-                        <Col md="6">
-                            {totalTickets > 0 &&
+                    {totalTickets > 0 &&
+                        <Row>
+                            <Col md="6">
+                                <InfoLabel
+                                    totalTickets={totalTickets}
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                />
+                            </Col>
+                            <Col md="6">
                                 <Pagination
                                     totalTickets={totalTickets}
                                     pageLimit={10}
                                     pageNeighbours={1}
                                     handlePageChanged={this.handlePageChanged}
                                 />
-                            }
-                            
-                        </Col>
-                    </Row>
+                            </Col>
+                        </Row>
+                    }
+                    
                 </CardBody>
             </Card>
         )
