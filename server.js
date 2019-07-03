@@ -1,7 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const path = require('path');
+
+const items = require("./routes/api/items");
+const tickets = require("./routes/api/tickets");
+const calendar = require("./routes/api/calendar");
 
 const app = express();
+
+// cors
+app.use(cors());
 
 //bodyParser
 app.use(express.json());
@@ -16,8 +26,9 @@ mongoose
   .catch(err => console.log(err));
 
 // Use Routes
-app.use("/api/items", require("./routes/api/items"));
-app.use("/api/users", require("./routes/api/users"));
+app.use("api/items", items);
+app.use("/tickets", tickets);
+app.use("/calendar", calendar);
 
 const port = process.env.PORT || 5000;
 

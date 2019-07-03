@@ -1,6 +1,6 @@
-const user = "admin";
-const password = "admin";
-
+const username = 'admin';
+const password = 'admin';
 module.exports = {
-  mongoURI: `mongodb+srv://${user}:${password}@cluster0-mbw1s.mongodb.net/dev_ticket`
+  mongoURI:
+    `mongodb+srv://${username}:${password}@cluster0-mbw1s.mongodb.net/dev_ticket?retryWrites=true&w=majority`
 };
