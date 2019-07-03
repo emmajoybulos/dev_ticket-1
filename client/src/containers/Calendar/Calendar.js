@@ -84,6 +84,7 @@ class Calendar extends Component {
         issues: [],
         userIssues: [],
         modal: false,
+        haha: false
     }
 
     componentDidMount () {
@@ -94,6 +95,10 @@ class Calendar extends Component {
         .catch(err => {
             console.log(err)
         });
+
+        setInterval(() => {
+           this.handleRefreshCalendar()
+        }, 5000);
     }
 
     handleModal = (arg) => {
@@ -146,11 +151,6 @@ class Calendar extends Component {
                 <Card>
                     <CardHeader>
                         <span>Calendar</span>
-                        <div className="card-header-actions">
-                            <Button color="primary" onClick={this.handleRefreshCalendar} size="sm" >
-                                <i className="fa fa-refresh"> </i>
-                            </Button>
-                        </div>
                     </CardHeader>
                     <CardBody>
                         <FullCalendar issues={this.state.issues} click={this.handleModal} calendarRef={this.calendarComponentRef} />

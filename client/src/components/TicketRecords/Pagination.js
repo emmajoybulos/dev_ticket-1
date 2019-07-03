@@ -129,7 +129,7 @@ class Pagination extends Component {
                     if (page === LEFT_PAGE)
                     return (
                         <li key={index} className="page-item">
-                            <a
+                            <button
                                 className="page-link"
                                 href="#"
                                 aria-label="Previous"
@@ -137,14 +137,14 @@ class Pagination extends Component {
                             >
                                 <span aria-hidden="true">&laquo;</span>
                                 <span className="sr-only">Previous</span>
-                            </a>
+                            </button>
                         </li>
                     );
 
                     if (page === RIGHT_PAGE)
                     return (
                         <li key={index} className="page-item">
-                            <a
+                            <button
                                 className="page-link"
                                 href="#"
                                 aria-label="Next"
@@ -152,7 +152,7 @@ class Pagination extends Component {
                             >
                                 <span aria-hidden="true">&raquo;</span>
                                 <span className="sr-only">Next</span>
-                            </a>
+                            </button>
                         </li>
                     );
 
@@ -163,13 +163,13 @@ class Pagination extends Component {
                             currentPage === page ? " active" : ""
                             }`}
                         >
-                            <a
+                            <button
                                 className="page-link"
                                 href="#"
                                 onClick={e => this.handleClick(page, e)}
                             >
-                            {page}
-                            </a>
+                                {page}
+                            </button>
                         </li>
                     );
                     })}
