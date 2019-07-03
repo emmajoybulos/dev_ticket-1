@@ -1,7 +1,18 @@
-// Here you can add other styles
-
-header ul.ml-auto.navbar-nav {
-    padding-right: 30px
+a:hover {
+    text-decoration: none
+}
+a:focus, button:focus, .page-link:focus, .btn-primary:focus, .btn-primary.focus {
+    box-shadow: none
+}
+.disabled {
+    cursor: not-allowed;
+}
+.main .container-fluid {
+    padding: 30px;
+}
+.card-header span {
+    display: inline-block;
+    vertical-align: sub
 }
 .dataTables_paginate .pagination, .dataTables_filter label {
     float: right
@@ -13,4 +24,32 @@ header ul.ml-auto.navbar-nav {
     width: auto;
     display: inline-block;
     margin-left: 10px
+}
+.Toastify__toast--success {
+    background: #4dbd74 !important
+}
+.fc-content {
+    color: #fff;
+    background: #20a8d8;
+    cursor: pointer
+}
+.fc-event {
+    border: 1px solid #20a8d8 !important
+}
+.fc-event {
+    background-color: #20a8d8 !important
+}
+.fc-content img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%
+}
+.fc-row.fc-week.fc-widget-content, .fc-scroller.fc-day-grid-container {
+    height: auto !important;
+}
+.modal ul {
+    margin-bottom: 0
+}
+nav ul.pagination {
+    float: right
 }

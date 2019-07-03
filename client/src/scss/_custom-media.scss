@@ -1,0 +1,41 @@
+// Here you can add other styles
+@media (min-width: 320px) {
+    .ml-auto.navbar-nav li a span {
+        display: none;
+    }
+    .fc-toolbar.fc-header-toolbar {
+        display: none;
+    }
+    header ul.ml-auto.navbar-nav {
+        padding-right: 0
+    }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+    .ml-auto.navbar-nav li a span {
+        display: inline-block;
+    }
+    .fc-toolbar.fc-header-toolbar {
+        display: flex;
+    }
+    header ul.ml-auto.navbar-nav {
+        padding-right: 30px
+    }
+    .table.table-bordered.table-striped thead tr th:nth-child(1) {
+        width: 10%
+    }
+    .table.table-bordered.table-striped thead tr th:nth-child(2) {
+        width: 55%
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    
+}
