@@ -35,11 +35,11 @@ class TicketRecords extends Component {
         }, 5000);
     }
 
-    handleChange = (event) => {
+    handleChange = event => {
         this.setState({ ticket_id: event.target.value });
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = event => {
         event.preventDefault();
         axios.post('/tickets', {
             ticket_id: this.state.ticket_id
@@ -63,6 +63,10 @@ class TicketRecords extends Component {
         const currentTickets = tickets.slice(offset, offset + pageLimit);
 
         this.setState({ currentPage, currentTickets, totalPages });
+    }
+
+    handleUnresolvedTickets = () => {
+
     }
     
     render() {
