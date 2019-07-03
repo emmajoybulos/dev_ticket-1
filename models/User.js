@@ -1,48 +1,43 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const UserSchema = new mongoose.Schema({
-  firstName: {
+//User Schema
+const UserSchema = new Schema({
+  firstname: {
     type: String,
-    default: ""
+    required: true
   },
 
-  lastName: {
+  lastname: {
     type: String,
-    default: ""
+    required: true
   },
 
-  userName: {
+  email: {
     type: String,
-    default: ""
+    required: true,
+    unique: true
   },
 
   password: {
     type: String,
-    default: ""
+    required: true
   },
 
-  userType: {
+  user_type: {
     type: String,
-    default: ""
+    required: true
   },
 
-  userBrand: {
+  user_brand: {
     type: String,
-    default: ""
+    required: true
   },
 
-  isDeleted: {
-    type: Boolean,
-    default: false
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 
-UserSchema.methods.generateHash = function(password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
-
-UserSchema.methods.validPassword = function(password) {
-  return bcrypt.compa(password, this.password);
-};
-
-module.exports = mongoose.model("User", UserSchema);
+module.exports = User = mongoose.model("user", UserSchema);
