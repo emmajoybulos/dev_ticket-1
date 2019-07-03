@@ -1,12 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const cors = require("cors");
-const path = require('path');
 
 const items = require("./routes/api/items");
 const tickets = require("./routes/api/tickets");
 const calendar = require("./routes/api/calendar");
+const user = require("./routes/api/users");
 
 const app = express();
 
@@ -26,9 +25,10 @@ mongoose
   .catch(err => console.log(err));
 
 // Use Routes
-app.use("api/items", items);
+app.use("/api/items", items);
 app.use("/tickets", tickets);
 app.use("/calendar", calendar);
+app.use("/api/users", user);
 
 const port = process.env.PORT || 5000;
 
