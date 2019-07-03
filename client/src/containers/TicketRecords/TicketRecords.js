@@ -13,6 +13,9 @@ import 'react-toastify/dist/ReactToastify.css';
 toast.configure({ autoClose: 3000 });
 
 class TicketRecords extends Component {
+
+    _isMounted = false;
+
     state = {
         ticket_id: '',
         tickets: [],
@@ -22,17 +25,19 @@ class TicketRecords extends Component {
     }
 
     componentDidMount () {
+        this._isMounted = true;
+
         axios.get('/tickets')
         .then(response => {
-            this.setState({ tickets: response.data });
+            if (this._isMounted) this.setState({ tickets: response.data });
         })
         .catch(err => {
             console.log(err)
         });
+    }
 
-        setInterval(() => {
-            console.log('haha')
-        }, 5000);
+    componentWillUnmount () {
+        this._isMounted = false;
     }
 
     handleChange = event => {
