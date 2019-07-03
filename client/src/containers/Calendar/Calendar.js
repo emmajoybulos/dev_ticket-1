@@ -78,6 +78,7 @@ const ticketBadgeRender = (arg) => {
     
 class Calendar extends Component {
 
+    _isMounted = false;
     calendarComponentRef = React.createRef();
 
     state = {
@@ -88,6 +89,7 @@ class Calendar extends Component {
     }
 
     componentDidMount () {
+        this._isMounted = true;
         axios.get('/calendar')
         .then(response => {
             this.setState({ issues: [...assembleIssues(response.data.issues)] })
@@ -97,8 +99,12 @@ class Calendar extends Component {
         });
 
         setInterval(() => {
-           this.handleRefreshCalendar()
+            if (this._isMounted) this.handleRefreshCalendar()
         }, 5000);
+    }
+
+    componentWillUnmount () {
+        this._isMounted = false;
     }
 
     handleModal = (arg) => {
