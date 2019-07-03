@@ -23,7 +23,6 @@ const statusBadge = arg => {
 const mainTable = props => {
   let { currentTickets } = props;
 
-<<<<<<< HEAD
   let renderTickets = (
     <tr align="center">
       <td colSpan="6">Loading tickets...</td>
@@ -38,7 +37,6 @@ const mainTable = props => {
             <a
               href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id}
               target="_blank"
-              rel="noopener"
             >
               {ticket.ticket_id}
             </a>
@@ -47,7 +45,6 @@ const mainTable = props => {
             <a
               href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id}
               target="_blank"
-              rel="noopener"
             >
               {ticket.ticket_summary}
             </a>
@@ -64,21 +61,6 @@ const mainTable = props => {
           <td colSpan="6">No data to display.</td>
         </tr>
       );
-=======
-    let renderTickets = <tr align="center"><td colSpan="6">Loading tickets...</td></tr>
-        
-    if(currentTickets.length > 0) {
-        renderTickets = currentTickets.map((ticket) => 
-            <tr key={ticket._id}>
-                <td><a href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id} target="_blank" rel="noopener noreferrer">{ticket.ticket_id}</a></td>
-                <td><a href={"https://jira.egalacoral.com/browse/" + ticket.ticket_id} target="_blank" rel="noopener noreferrer">{ticket.ticket_summary}</a></td>
-                <td>{ticket.duedate}</td>
-                <td>{ticket.original_duedate}</td>
-                <td>{ticket.logged_time}</td>
-                <td>{statusBadge(ticket.ticket_status)}</td>
-            </tr>
-        )
->>>>>>> 8ae91efdd3f78256a7ec172468e4ca68c7da7a86
     }
   }
 
