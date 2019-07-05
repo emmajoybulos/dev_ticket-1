@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+// import store from "./store";
+// import { loadUser } from "./actions/authActions";
+
 // import { renderRoutes } from 'react-router-config';
 import "./App.scss";
 
@@ -16,6 +20,9 @@ const Page404 = React.lazy(() => import("./views/Pages/Page404"));
 const Page500 = React.lazy(() => import("./views/Pages/Page500"));
 
 class App extends Component {
+  // componentDidMount() {
+  //   store.dispatch(loadUser());
+  // }
   render() {
     return (
       <BrowserRouter>

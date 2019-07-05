@@ -35,13 +35,17 @@
     "react-app-polyfill": "^1.0.1",
     "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
     "react-router-config": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-spinners": "^0.5.4",
     "react-test-renderer": "^16.8.6",
     "react-toastify": "^5.2.1",
+    "react-transition-group": "^4.2.1",
     "reactstrap": "^7.1.0",
-    "simple-line-icons": "^2.4.1"
+    "redux": "^4.0.1",
+    "simple-line-icons": "^2.4.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "react-scripts": "^3.0.1"
@@ -54,7 +58,7 @@
     "test:debug": "react-scripts --inspect-brk test --runInBand",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://localhost:5000",
   "bugs": {
     "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
   },
