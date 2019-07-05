@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 const propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 const defaultProps = {};
 
 class DefaultFooter extends Component {
   render() {
-
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
 
