@@ -44,7 +44,7 @@ const TicketRecords = React.lazy(() =>
   import("./containers/TicketRecords/TicketRecords")
 );
 const Calendar = React.lazy(() => import("./containers/Calendar/Calendar"));
-const Admin = React.lazy(() => import("./containers/Admin/Admin"));
+const AdminUser = React.lazy(() => import("./containers/User/User"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -118,7 +118,7 @@ const routes = [
     component: TicketRecords
   },
   { path: "/calendar", exact: true, name: "Calendar", component: Calendar },
-  { path: "/admin", exact: true, name: "Admin", component: Admin }
+  { path: "/admin", exact: true, name: "AdminUser", component: AdminUser }
 ];
 
 export default routes;

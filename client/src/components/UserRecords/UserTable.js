@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "reactstrap";
 
-const adminTable = props => {
+const UsersTable = props => {
   let { currentUsers } = props;
 
   let renderUsers = (
@@ -14,10 +14,12 @@ const adminTable = props => {
     if (currentUsers.length > 0) {
       renderUsers = currentUsers.map(user => (
         <tr key={user._id}>
-          <td>{user.firstname}</td>
-          <td>{user.user_type}</td>
-          <td>{user.user_brand}</td>
+          <td>
+            {user.firstname} {user.lastname}
+          </td>
           <td>{user.email}</td>
+          <td>{user.user_brand}</td>
+          <td>{user.user_type}</td>
         </tr>
       ));
     } else {
@@ -30,8 +32,8 @@ const adminTable = props => {
   }
 
   return (
-    <Table responsive bordered striped>
-      <thead>
+    <Table responsive bordered>
+      <thead className="thead-light">
         <tr>
           <th>Name</th>
           <th>Designation</th>
@@ -44,4 +46,4 @@ const adminTable = props => {
   );
 };
 
-export default adminTable;
+export default UsersTable;

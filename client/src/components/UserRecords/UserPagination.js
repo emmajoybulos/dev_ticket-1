@@ -16,20 +16,20 @@ const range = (from, to, step = 1) => {
   return range;
 };
 
-class Pagination extends Component {
+class UserPagination extends Component {
   constructor(props) {
     super(props);
-    const { totalTickets = null, pageLimit = 30, pageNeighbours = 0 } = props;
+    const { totalUsers = null, pageLimit = 30, pageNeighbours = 0 } = props;
 
     this.pageLimit = typeof pageLimit === "number" ? pageLimit : 30;
-    this.totalTickets = typeof totalTickets === "number" ? totalTickets : 0;
+    this.totalUsers = typeof totalUsers === "number" ? totalUsers : 0;
 
     this.pageNeighbours =
       typeof pageNeighbours === "number"
         ? Math.max(0, Math.min(pageNeighbours, 2))
         : 0;
 
-    this.totalPages = Math.ceil(this.totalTickets / this.pageLimit);
+    this.totalPages = Math.ceil(this.totalUsers / this.pageLimit);
 
     this.state = { curretPage: 1 };
   }
@@ -47,7 +47,7 @@ class Pagination extends Component {
       currentPage,
       totalPages: this.totalPages,
       pageLimit: this.pageLimit,
-      totalTickets: this.totalTickets
+      totalUsers: this.totalUsers
     };
 
     this.setState({ currentPage }, () => handlePageChanged(paginationData));
@@ -114,7 +114,7 @@ class Pagination extends Component {
   };
 
   render() {
-    if (!this.totalTickets) return null;
+    if (!this.totalUsers) return null;
 
     if (this.totalPages === 1) return null;
 
@@ -180,11 +180,11 @@ class Pagination extends Component {
   }
 }
 
-Pagination.propTypes = {
-  totalTickets: PropTypes.number.isRequired,
+UserPagination.propTypes = {
+  totalUsers: PropTypes.number.isRequired,
   pageLimit: PropTypes.number,
   pageNeighbours: PropTypes.number,
   onPageChanged: PropTypes.func
 };
 
-export default Pagination;
+export default UserPagination;

@@ -7,6 +7,16 @@ const jwt = require("jsonwebtoken");
 // User Model
 const User = require("../../models/User");
 
+// @route  GET api/users
+// @desc   Get All Users
+// @access PUBLIC
+
+router.get("/", (req, res) => {
+  User.find()
+    .sort({ date: -1 })
+    .then(user => res.json(user));
+});
+
 // @route   POST api/users
 // @desc    REGISTER new user
 // @access  Public
@@ -74,6 +84,16 @@ router.post("/", (req, res) => {
       });
     });
   });
+});
+
+// @route   DELETE api/users/:id
+// @desc    Delete a User
+// @access  PUBLIC
+
+router.delete("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then(user => user.remove().then(() => res.json({ success: true })))
+    .catch(err => res.status(404).json({ success: false }));
 });
 
 module.exports = router;
