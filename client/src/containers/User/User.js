@@ -61,7 +61,10 @@ class UserRecords extends Component {
         <Col md="8">
           <Card>
             <CardHeader>
-              <span>USER RECORDS</span>
+              <h5>
+                <i className="fa fa-list" />
+                &nbsp;USER RECORDS
+              </h5>
             </CardHeader>
             <CardBody>
               <UsersTable currentUsers={currentUsers} />

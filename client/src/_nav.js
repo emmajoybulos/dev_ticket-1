@@ -268,7 +268,14 @@ export default {
     {
       name: "Admin",
       url: "/admin",
-      icon: "icon-user"
+      icon: "icon-menu",
+      children: [
+        {
+          name: "Users",
+          url: "/admin/users",
+          icon: "icon-people"
+        }
+      ]
     }
   ]
 };
