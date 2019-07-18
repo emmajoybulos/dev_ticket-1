@@ -1,43 +1,32 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardHeader, Row, Col } from "reactstrap";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 import UsersTable from "../../components/UserRecords/UserTable";
 import UserPagination from "../../components/UserRecords/UserPagination";
 import UserPages from "../../components/UserRecords/UserPages";
 import AddUser from "../../components/UserRecords/AddUser";
+import Spinner from "../../spinner";
 
 import "react-toastify/dist/ReactToastify.css";
+
+import { connect } from "react-redux";
+import { getUsers } from "../../actions/userAction";
 
 toast.configure({ autoClose: 3000 });
 
 class UserRecords extends Component {
   _isMounted = false;
 
+  componentDidMount() {
+    this.props.getUsers();
+  }
+
   state = {
-    user: [],
     currentUsers: [],
     currentPage: null,
     totalPages: null
   };
-
-  componentDidMount() {
-    this._isMounted = true;
-
-    axios
-      .get("http://localhost:5000/api/users")
-      .then(response => {
-        if (this._isMounted) this.setState({ user: response.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
 
   handlePageChanged = data => {
     const { user } = this.state;
@@ -49,14 +38,16 @@ class UserRecords extends Component {
     this.setState({ currentPage, currentUsers, totalPages });
   };
 
-  handleUnresolvedTickets = () => {};
-
   render() {
-    const { user, currentUsers, currentPage, totalPages } = this.state;
+    const { user } = this.props;
+
+    const { currentPage, totalPages } = this.state;
 
     const totalUsers = user.length;
 
-    return (
+    return user.loading ? (
+      <Spinner />
+    ) : (
       <Row>
         <Col md="8">
           <Card>
@@ -67,7 +58,7 @@ class UserRecords extends Component {
               </h5>
             </CardHeader>
             <CardBody>
-              <UsersTable currentUsers={currentUsers} />
+              <UsersTable currentUsers={user.user} />
               {totalUsers > 0 && (
                 <Row>
                   <Col md="6">
@@ -98,4 +89,11 @@ class UserRecords extends Component {
   }
 }
 
-export default UserRecords;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(
+  mapStateToProps,
+  { getUsers }
+)(UserRecords);

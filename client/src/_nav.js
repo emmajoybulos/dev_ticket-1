@@ -274,6 +274,16 @@ export default {
           name: "Users",
           url: "/admin/users",
           icon: "icon-people"
+        },
+        {
+          name: "Brands",
+          url: "/admin/brands",
+          icon: "icon-people"
+        },
+        {
+          name: "Positions",
+          url: "/admin/positions",
+          icon: "icon-people"
         }
       ]
     }
